@@ -1,27 +1,20 @@
+import 'dart:async';
+
 void main() {
-  Employee seulgi = Employee('슬기');
-  Employee chorong = Employee('초롱');
+  final controller = StreamController();
+  final stream = controller.stream.asBroadcastStream();
 
-  seulgi.printNameAndBuilding();
-  chorong.printNameAndBuilding();
+  final streamListener = stream.listen((val) {
+    print('Listener 1 : $val');
+  });
 
-  Employee.building = '오투타워';
+  final streamListener2 = stream.listen((val) {
+    print('Listener 2 : $val');
+  });
 
-  seulgi.printNameAndBuilding();
-  chorong.printNameAndBuilding();
-}
-
-class Employee {
-  static String? building;
-  final String name;
-
-  Employee(this.name);
-
-  void printNameAndBuilding() {
-    print('제 이름은 $name 입니다. $building에서 근무하고 있습니다.');
-  }
-
-  static void printBuilding() {
-    print('저는 $building에서 근무중입니다.');
-  }
+  controller.sink.add(1);
+  controller.sink.add(2);
+  controller.sink.add(3);
+  controller.sink.add(4);
+  controller.sink.add(5);
 }
