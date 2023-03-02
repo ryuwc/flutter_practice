@@ -492,3 +492,66 @@ map.map((key, value) => MapEntry(key, value.toUpperCase()));
     }
     ```
 - `then()`은 비동기 처리가 완료된 후 실행되므로 `World`가 먼저 출력된다.
+
+
+### Stream
+
+- `Stream`은 비동기 처리를 위한 클래스이다.
+
+
+    ```dart
+    Stream<int> getStream() {
+      return Stream.fromIterable([1, 2, 3, 4, 5]);
+    }
+
+    void main() {
+      getStream().listen((event) => print(event));
+    }
+    ```
+
+- `Stream`은 `listen()`을 통해 비동기 처리가 완료된 후 실행할 코드를 작성한다.
+
+    ```dart
+    Stream<int> getStream() {
+      return Stream.fromIterable([1, 2, 3, 4, 5]);
+    }
+
+    void main() {
+      getStream().listen((event) => print(event));
+      print('World');
+    }
+    ```
+- `listen()`은 비동기 처리가 완료된 후 실행되므로 `World`가 먼저 출력된다.
+
+
+### 비동기 처리의 종류
+
+- `Future`와 `Stream`은 비동기 처리를 위한 클래스이다.
+
+
+    ```dart
+    Future<String> getFuture() {
+      return Future.delayed(Duration(seconds: 3), () => 'Hello');
+    }
+
+    void main() {
+      getFuture().then((value) => print(value));
+      print('World');
+    }
+    ```
+- `Future`는 비동기 처리가 완료된 후 실행할 코드를 작성한다.
+
+
+    ```dart
+    Stream<int> getStream() {
+      return Stream.fromIterable([1, 2, 3, 4, 5]);
+    }
+
+    void main() {
+      getStream().listen((event) => print(event));
+      print('World');
+    }
+    ```
+- `Stream`은 비동기 처리가 완료된 후 실행할 코드를 작성한다.
+
+
