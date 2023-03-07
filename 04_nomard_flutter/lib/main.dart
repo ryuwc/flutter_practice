@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nomard_flutter/screens/home_screen.dart';
+import 'package:nomard_flutter/services/api_service.dart';
 
 void main() {
   runApp(const App());
