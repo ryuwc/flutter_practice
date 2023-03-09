@@ -36,7 +36,7 @@ class Webtoon extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 15,
-                    offset: Offset(10, 10),
+                    offset: const Offset(10, 10),
                     color: Colors.black.withOpacity(0.3),
                   )
                 ],
@@ -50,12 +50,12 @@ class Webtoon extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w400,
             ),

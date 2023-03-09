@@ -1,6 +1,8 @@
-# nomard_flutter
+
+# toonflix
 
 A new Flutter project.
+[노마드 코더 Flutter](https://nomadcoders.co/flutter-for-beginners/) 강의 학습 프로젝트
 
 ## Getting Started
 
@@ -8,9 +10,14 @@ This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+
+## Learn more
+
+You can learn more about Flutter in the [online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on mobile development, and a full API reference.
+
+
