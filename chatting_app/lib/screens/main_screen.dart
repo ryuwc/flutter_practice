@@ -1,5 +1,7 @@
 import 'package:chatting_app/config/palette.dart';
+import 'package:chatting_app/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
@@ -9,6 +11,8 @@ class LoginSignupScreen extends StatefulWidget {
 }
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
+  final _authentication = FirebaseAuth.instance;
+
   bool isSignupScreen = true;
   final _formkey = GlobalKey<FormState>();
 
@@ -21,7 +25,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     if (isValid) {
       _formkey.currentState!.save();
     }
-    print("isValid = $isValid");
+    // print("isValid = $isValid");
+    // print("userEmail = $userEmail");
   }
 
   @override
@@ -63,7 +68,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                           children: [
                             TextSpan(
                               text:
-                                  isSignupScreen ? ' to Yummy chat!' : ' back',
+                              isSignupScreen ? ' to Yummy chat!' : ' back',
                               style: TextStyle(
                                 letterSpacing: 1.0,
                                 fontSize: 25,
@@ -99,7 +104,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               child: AnimatedContainer(
                 padding: EdgeInsets.all(20),
                 height: isSignupScreen ? 280 : 250,
-                width: MediaQuery.of(context).size.width - 40,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 40,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -197,6 +205,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   onSaved: (val) {
                                     userName = val!;
                                   },
+                                  onChanged: (val) {
+                                    userName = val;
+                                  },
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.account_circle,
@@ -226,6 +237,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   height: 8,
                                 ),
                                 TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   key: ValueKey(2),
                                   validator: (value) {
                                     if (value!.isEmpty ||
@@ -236,6 +248,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   },
                                   onSaved: (val) {
                                     userEmail = val!;
+                                  },
+                                  onChanged: (val) {
+                                    userEmail = val;
                                   },
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
@@ -266,6 +281,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   height: 8,
                                 ),
                                 TextFormField(
+                                  obscureText: true,
                                   key: ValueKey(3),
                                   validator: (value) {
                                     if (value!.isEmpty || value!.length < 6) {
@@ -275,6 +291,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   },
                                   onSaved: (val) {
                                     userPassword = val!;
+                                  },
+                                  onChanged: (val) {
+                                    userPassword = val;
                                   },
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
@@ -324,6 +343,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   onSaved: (val) {
                                     userEmail = val!;
                                   },
+                                  onChanged: (val) {
+                                    userEmail = val;
+                                  },
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                       Icons.email,
@@ -362,6 +384,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   },
                                   onSaved: (val) {
                                     userPassword = val!;
+                                  },
+                                  onChanged: (val) {
+                                    userPassword = val;
                                   },
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
@@ -414,8 +439,61 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: GestureDetector(
-                    onTap: () {
-                      _tryValidation();
+                    onTap: () async {
+                      if (isSignupScreen) {
+                        _tryValidation();
+
+                        try {
+                          final newUser = await _authentication
+                              .createUserWithEmailAndPassword(
+                            email: userEmail,
+                            password: userPassword,
+                          );
+
+                          if (newUser.user != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ChatScreen();
+                                },
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                              Text('Please check your email and password'),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );
+                        }
+                      }
+                      if (!isSignupScreen) {
+                        _tryValidation();
+                        try {
+                          final newUser = await _authentication
+                              .signInWithEmailAndPassword(
+                            email: userEmail,
+                            password: userPassword,
+                          );
+
+                          if (newUser.user != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ChatScreen();
+                                },
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -451,8 +529,14 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               duration: Duration(milliseconds: 500),
               curve: Curves.easeIn,
               top: isSignupScreen
-                  ? MediaQuery.of(context).size.height - 125
-                  : MediaQuery.of(context).size.height - 165,
+                  ? MediaQuery
+                  .of(context)
+                  .size
+                  .height - 125
+                  : MediaQuery
+                  .of(context)
+                  .size
+                  .height - 165,
               right: 0,
               left: 0,
               child: Column(
