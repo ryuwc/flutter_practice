@@ -4,7 +4,9 @@ import 'package:getx_practice/pages/normal/Second.dart';
 import 'package:getx_practice/src/home.dart';
 
 class NextPage extends StatelessWidget {
-  const NextPage({Key? key}) : super(key: key);
+  User arguments = Get.arguments as User;
+
+  NextPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,8 @@ class NextPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Text('${Get.arguments['name']} : ${Get.arguments['age']}'),
-            Text('${(Get.arguments as User).name}'),
+            // Text('${(Get.arguments as User).name}'),
+            Text('${arguments.name} : ${arguments.age} : $arguments'),
             ElevatedButton(
               onPressed: () {
                 Get.back();

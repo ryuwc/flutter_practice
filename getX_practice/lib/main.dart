@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_practice/pages/binding.dart';
 import 'package:getx_practice/pages/named/Second.dart';
 import 'package:getx_practice/pages/named/first.dart';
 import 'package:getx_practice/pages/next.dart';
 import 'package:getx_practice/pages/user.dart';
+import 'package:getx_practice/src/binding/binding_page.dart';
+import 'package:getx_practice/src/controller/count_controller_with_getx.dart';
+import 'package:getx_practice/src/controller/dependency_controller.dart';
 import 'package:getx_practice/src/home.dart';
 
 void main() {
@@ -40,6 +44,17 @@ class MyApp extends StatelessWidget {
             name: "/user/:uid",
             page: () => UserPage(),
             transition: Transition.zoom),
+        GetPage(
+          name: "/binding",
+          page: () => BindingPage(),
+          // binding: BindingsBuilder(
+          //   () {
+          //     Get.lazyPut<CountControllerWithGetX>(
+          //         () => CountControllerWithGetX());
+          //   },
+          // ),
+          binding: BindingPageBinding(),
+        ),
       ],
     );
   }
